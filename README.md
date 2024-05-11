@@ -1,5 +1,5 @@
 - 프로젝트 이름 : 무야호텔(반려견 호텔)
-- 프로젝트 환경 : Java(1.8), Spring MVC, Mybatis, Oracle, JSP
+- 프로젝트 환경 : Java(1.8), Spring MVC(5.0.6), Mybatis, Oracle(11), JSP
 - 사용된 외부 API 및 라이브러리 : Datepicker
 - 담당 파트 : 객실 예약, 이미지 게시판
 - 담당 소스코드 디렉토리 :
