@@ -5,6 +5,7 @@
 - 담당 소스코드 디렉토리 :
   - src/main/java/kr/co/pet
   - src/main/webapp/WEB-INF/views/pet
+  - resources/mapper/petRoom-mapper.xml
 
 # 객실 예약 메인 화면
 ![00](https://github.com/bodoreda/2021muyahotel/assets/78584015/d3195ca8-bdf8-4d20-a72e-77e2cbdfff30)
