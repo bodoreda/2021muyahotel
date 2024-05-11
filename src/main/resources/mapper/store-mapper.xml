@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="store">
+	<select id="selectAllSup" resultType="ps">
+		select ps_no as psNo,
+				ps_cate as psCate,
+				ps_name as psName,
+				ps_price as psPrice,
+				ps_content as psContent,
+				main_img as mainImg,
+				sub_img as subImg
+		from pet_supplies
+	</select>
+	<select id="selectOneSup" parameterType="ps" resultType="ps">
+		select ps_no as psNo,
+				ps_cate as psCate,
+				ps_name as psName,
+				ps_price as psPrice,
+				ps_content as psContent,
+				main_img as mainImg,
+				sub_img as subImg
+		from pet_supplies where ps_no=#{psNo}
+	</select>
+	<insert id="insertSup" parameterType="ps">
+		insert into pet_supplies values(ps_seq.nextval,#{psCate},#{psName},#{psPrice},#{psContent},#{mainImg},#{subImg})
+	</insert>
+	<update id="updateSup" parameterType="ps">
+	  	update pet_supplies set ps_cate=#{psCate},ps_name=#{psName},ps_price=#{psPrice},ps_content=#{psContent},main_img=#{mainImg},sub_img=#{subImg}
+	  	where ps_no=#{psNo}
+  	</update>
+  	<delete id="deleteSup" parameterType="string">
+  		delete from pet_supplies where ps_no=#{psNo}
+  	</delete>
+  	<insert id="insertBasket" parameterType="bsk">
+  		insert into basket values(basket_seq.nextval,#{memberId},#{psNo},#{psAmount},default)
+  	</insert>
+  	<select id="selectBasket" parameterType="string" resultType="bsk">
+		select basket_no as basketNo,
+				member_id as memberId,
+				ps_no as psNo,
+				ps_amount as psAmount,
+				basket_status as basketStatus,
+				ps_name as psName,
+				ps_price as psPrice,
+				main_img as mainImg
+		from basket join pet_supplies using(ps_no) where member_id=#{memberId}
+	</select>
+	<update id="updateBasket" parameterType="bsk">
+	  	update basket set ps_amount=#{psAmount}
+	  	where basket_no=#{basketNo}
+  	</update>
+  	<delete id="deleteBasket" parameterType="int">
+  		delete from basket where basket_no=#{basketNo}
+  	</delete>
+  	<update id="updateBasketStatus" parameterType="bsk">
+	  	update basket set basket_status=#{basketStatus}
+	  	where basket_no=#{basketNo}
+  	</update>
+  	<insert id="insertPayment" parameterType="pm">
+  		insert into payment_je values(payment_je_seq.nextval,#{memberId},#{paymentDate},#{basketNo})
+  	</insert>
+  	<select id="selectPayment" parameterType="string" resultType="pm">
+  		select p.payment_no as paymentNo,
+  				p.payment_date as paymentDate,
+  				p.member_id as memberId,
+  				b.basket_no as basketNo,
+  				main_img as mainImg,
+  				ps_name as psName,
+  				ps_amount as psAmount,
+  				ps_price as psPrice
+  		from basket b
+  		join pet_supplies psp on (b.ps_no = psp.ps_no)
+  		join payment_je p on (b.basket_no = p.basket_no and p.member_id = b.member_id)
+		where p.member_id=#{memberId}
+  	</select>
+  	<update id="updateMemberPoint" parameterType="m">
+	  	update member set member_point=#{memberPoint}
+	  	where member_id=#{memberId}
+  	</update>
+</mapper>

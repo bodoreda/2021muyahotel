@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="wedding">
+	<insert id="reserveWedding" parameterType="wr">
+  		insert into wedding_reserve values(wr_seq.nextval,#{whNo},#{memberId},#{wrDate})
+  	</insert>
+  	<select id="selectAllWr" parameterType="String" resultType="wr">
+		select wr_no as wrNo,
+				wh_no as whNo,
+				member_id as memberId,
+				wr_date as wrDate
+		from wedding_reserve where wh_no=#{whNo}
+	</select>
+	<select id="selectOneWh" parameterType="String" resultType="wh">
+		select wh_no as whNo,
+				wh_name as whName,
+				wh_loc as whLoc,
+				wh_sub as whSub,
+				wh_content as whContent
+		from wedding_hall where wh_no=#{whNo}
+	</select>
+	<select id="selectAllWh" resultType="wh">
+		select wh_no as whNo,
+				wh_name as whName,
+				wh_loc as whLoc,
+				wh_sub as whSub,
+				wh_content as whContent
+		from wedding_hall
+	</select>
+	<select id="selectReservedWedding" parameterType="m" resultType="wr">
+		select wr_no as wrNo,
+				wh_no as whNo,
+				member_id as memberId,
+				wr_date as wrDate,
+				wh_name as whName
+		from wedding_reserve join wedding_hall using(wh_no) where member_id=#{memberId}
+	</select>
+	<delete id="deleteWedding" parameterType="int">
+  		delete from wedding_reserve where wr_no=#{wrNo}
+  	</delete>
+  	<select id="selectOneWr" parameterType="int" resultType="wr">
+		select wr_no as wrNo,
+				wh_no as whNo,
+				member_id as memberId,
+				wh_name as whName,
+				wr_date as wrDate
+		from wedding_reserve join wedding_hall using(wh_no) where wr_no=#{wrNo}
+	</select>
+	<select id="selectWrNo" resultType="int">
+  	select max(wr_no) from wedding_reserve
+  </select>
+	<select id ="selectReservedSpa" parameterType = "m" resultType="spa">
+		select spa_no as spaNo,
+			   spa_user as spaUser,
+			   spa_type as spaType,
+			   spa_time as spaTime,
+			   spa_date as spaDate
+		from spa where spa_user = #{memberNo} and spa_date=TO_CHAR(SYSDATE,'YYYY-MM-DD')
+	</select>
+	<delete id="deleteSpa" parameterType="int">
+  		delete from spa where spa_no=#{spaNo}
+  	</delete>
+  	<select id="selectReservedPrr" parameterType="m" resultType="p">
+		select
+			room_no as roomNo,
+			member_id as memberId,
+			occupied,
+			pet_chkin as petChkin,
+			pet_chkout as petChkout,
+			pet_days as petDays
+		from pet_room_reserve where member_id=#{memberId}
+	</select>
+	<delete id="deletePrr" parameterType="int">
+  		delete from pet_room_reserve where room_no=#{roomNo}
+  	</delete>
+  	<select id="selectReservedGr" parameterType="m" resultType="rsv">
+		select
+			reserve_no as reserveNo,
+			room_no as roomNo,
+			reserved_client as reservedClient,
+			check_in as checkIn,
+			check_out as checkOut,
+			reserve_date as reserveDate
+		from room_reserve where reserved_client=#{memberId}
+	</select>
+	<delete id="deleteGr" parameterType="int">
+  		delete from room_reserve where reserve_no=#{reserveNo}
+  	</delete>
+</mapper>

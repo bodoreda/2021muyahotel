@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pro">
+  
+  <select id="proList" resultType="pt">
+	select 
+		pro_no as proNo,
+		pro_filepath as proPath,
+		pro_filename as proName,
+		pro_title as proTitle,
+		pro_content as proContent,
+		pro_enter as proEnter,
+		pro_date as proDate
+	from PROMOTION order by pro_no desc
+	</select>
+  
+  	<insert id="insertPro" parameterType="pt">
+		insert into promotion values(pro_seq.nextval,
+									 #{proPath},
+									 #{proName},
+									 #{proTitle},
+									 #{proContent},
+									 #{proEnter},
+									 #{proDate})
+	</insert>
+  
+  	<delete id="deletePro" parameterType="int">
+			delete from promotion where pro_no=#{proNo}
+	</delete>
+	
+	<!-- 프로모션 더보기 -->
+	<select id="proTotal" resultType="int">
+		select count(*) cnt from promotion
+	</select>
+	
+	<select id="proMore" parameterType="HashMap" resultType="pt" >
+		select * from
+		(select rownum as rnum, n.* from(
+			select 
+				pro_no as proNo,
+				pro_filepath as proPath,
+				pro_filename as proName,
+				pro_title as proTitle,
+				pro_content as proContent,
+				pro_enter as proEnter,
+				pro_date as proDate
+				from PROMOTION order by pro_no desc
+		)n)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 키워드 -->
+	<select id="searchList" parameterType="HashMap" resultType="pt">
+  select 
+    pro_no as proNo,
+				pro_filepath as proPath,
+				pro_filename as proName,
+				pro_title as proTitle,
+				pro_content as proContent,
+				pro_enter as proEnter,
+				pro_date as proDate
+      from promotion where 
+      <if test='searchCondition.equals("proTitle")'>
+     pro_title
+      </if>
+      <if test='searchCondition.equals("proContent")'>
+      pro_content
+      </if>
+        like '%' || #{searchkeyword} || '%'
+	</select>
+	
+	
+</mapper>

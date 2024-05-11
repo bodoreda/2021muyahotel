@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="event">
+  <select id="eventList" resultType="e">
+	select 
+		ev_no as evNo,
+		ev_filepath as filePath,
+		ev_filename as fileName,
+		ev_title as evTitle,
+		ev_content as evContent,
+		ev_date as evDate,
+		ev_active as evActive
+	from event order by ev_no desc
+	</select>
+	
+	
+	<insert id="insertEvent" parameterType="e">
+		
+		
+		insert into event values(event_seq.nextval,
+									 #{filePath},
+									 #{fileName},
+									 #{evTitle},
+									 #{evContent},
+									 #{evDate},
+									 #{evActive})
+		
+	</insert>
+	
+	
+	<select id="searchList" parameterType="HashMap" resultType="e">
+  select 
+      ev_no as evNo,
+      ev_filepath as filePath,
+      ev_filename as fileName,
+      ev_title as evTitle,
+      ev_content as evContent,
+      ev_date as evDate,
+      ev_active as evActive
+      from event where 
+      <if test='searchCondition.equals("evTitle")'>
+      ev_title
+      </if>
+      <if test='searchCondition.equals("evContent")'>
+      ev_content
+      </if>
+        like '%' || #{searchkeyword} || '%'
+	</select>
+	
+	<delete id="eventDelete" parameterType="int">
+			delete from event where ev_no=#{evNo}
+	</delete>
+
+	 <update id="eventUpdate" parameterType="e" >
+  		update event
+  
+  		<if test='evActive > 0'>
+  		set ev_active = 0 where ev_no = #{evNo}
+  		</if>
+  		<if test='evActive == 0'>
+  		set ev_active = 1 where ev_no = #{evNo}
+  		</if>
+  		
+  	</update>
+
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="guestroom">
+	<select id="selectAllGuestroom" resultType="g">
+		select
+			room_no as roomNo,
+			img_name as imgName,
+			room_name as roomName,
+			visitors,
+			room_size as roomSize,
+			room_charge as roomCharge,
+			room_type as roomType,
+			sort_room as sortRoom,
+			check_in as checkIn,
+			check_out as checkOut,
+			room_guide as roomGuide,
+			supply,
+			facility
+		from guestroom
+		join guestroom_info using(room_no) order by 1
+	</select>
+	<select id="selectReservedRoom" parameterType="int" resultType="rsv">
+		select
+			check_in as checkIn,
+			check_out as checkOut
+		from room_reserve
+		where room_no=#{roomNo}
+	</select>
+	<select id="selectRoomName" parameterType="int" resultType="g">
+		select
+			room_name as roomName,
+			room_charge as roomCharge
+		from guestroom
+		where room_no = #{roomNo}
+	</select>
+	<insert id="insertReserve" parameterType="rsv">
+		insert into room_reserve values(reserve_seq.nextval,
+			#{roomNo},
+			#{reservedClient},
+			#{checkIn},
+			#{checkOut},
+		to_char(sysdate, 'yyyy-mm-dd, HH24:MI:SS'))
+	</insert>
+</mapper>
