@@ -1,4 +1,4 @@
-## 📌 프로젝트 : 무야호텔(반려견 호텔)
+## 📌 프로젝트 : 반려견 호텔 (인원 6, 기여도 20%)
 - 환경 : Java 1.8 , Spring MVC 5.0.6, Mybatis, Oracle 11, JSP
 - 사용된 외부 API 및 라이브러리 : Datepicker
 - 담당 파트 : 객실 예약, 이미지 게시판
@@ -6,8 +6,9 @@
   - src/main/java/kr/co/pet
   - src/main/webapp/WEB-INF/views/pet
   - resources/mapper/petRoom-mapper.xml
-- 담당 파트 ERD :
 
+
+## ERD
 ![erd](https://github.com/bodoreda/2021muyahotel/assets/78584015/1079a28f-6b0e-4cf1-b2b0-2fff5c5bc0f7)
 
 <br>
