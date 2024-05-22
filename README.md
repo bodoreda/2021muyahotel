@@ -7,6 +7,7 @@
   - src/main/webapp/WEB-INF/views/pet
   - resources/mapper/petRoom-mapper.xml
 - 담당 파트 ERD :
+
 ![erd](https://github.com/bodoreda/2021muyahotel/assets/78584015/1079a28f-6b0e-4cf1-b2b0-2fff5c5bc0f7)
 
 <br>
